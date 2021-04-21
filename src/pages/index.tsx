@@ -62,7 +62,47 @@ export default function Home({ latestEpisodes, remainingEpisodes } : HomeProps) 
         </ul>
       </section>
       <section className={ styles.remainingEpisodes }>
-
+        <h2>Todos</h2>
+        <table cellSpacing={0}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Podcast</th>
+              <th>Participantes</th>
+              <th>Data</th>
+              <th>Duração</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            { remainingEpisodes.map(episode => {
+              return (
+                <tr key={ episode.id }>
+                  <td style={{ width: 72 }}>
+                    <Image
+                      width={120}
+                      height={120}
+                      objectFit="cover"
+                      src={ episode.thumbnail }
+                      alt={ episode.title }
+                    />
+                  </td>
+                  <td>
+                    <a href="">{ episode.title }</a>
+                  </td>
+                  <td>{ episode.members }</td>
+                  <td style={{ width: 100 }}>{ episode.publishedAt }</td>
+                  <td>{ episode.durationAsString }</td>
+                  <td>
+                    <button type="button">
+                      <img src="/play-green.svg" alt="iniciar episódio"/>
+                    </button>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </section>
     </div>
   );
