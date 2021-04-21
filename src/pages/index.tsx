@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next';
+import Link from 'next/link';
 import Image from 'next/image';
 import { format, parseISO} from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -23,7 +24,6 @@ type Episode = {
   durationInSeconds: number;
   durationAsString: string;
   url: string;
-  description: string;
 }
 
 type HomeProps = {
@@ -48,19 +48,21 @@ export default function Home({ latestEpisodes, remainingEpisodes } : HomeProps) 
                 alt={ episode.title }
               />
               <div className={ styles.details}>
-                <a href={ episode.url }>{ episode.title }</a>
+                <Link href={`/episodes/${ episode.id }`}>
+                  <a>{ episode.title }</a>
+                </Link>
                 <p>{ episode.members }</p>
                 <span>{ episode.publishedAt }</span>
                 <span>{ episode.durationAsString }</span>
               </div>
-
               <button type="button">
                 <img src="/play-green.svg" alt="iniciar episódio"/>
               </button>
             </li>
-          )) }
+          ))}
         </ul>
       </section>
+
       <section className={ styles.remainingEpisodes }>
         <h2>Todos</h2>
         <table cellSpacing={0}>
@@ -88,7 +90,9 @@ export default function Home({ latestEpisodes, remainingEpisodes } : HomeProps) 
                     />
                   </td>
                   <td>
-                    <a href="">{ episode.title }</a>
+                    <Link href={`/episodes/${ episode.id }`}>
+                      <a>{ episode.title }</a>
+                    </Link>
                   </td>
                   <td>{ episode.members }</td>
                   <td style={{ width: 100 }}>{ episode.publishedAt }</td>
@@ -130,7 +134,6 @@ export const getStaticProps : GetStaticProps = async () => {
       publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: pt }),
       durationInSeconds: Number(episode.file.duration),
       durationAsString: convertDurationToTimeString(Number(episode.file.duration)),
-      description: episode.description,
       url: episode.file.url,
     }
   })
