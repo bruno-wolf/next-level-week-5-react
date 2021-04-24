@@ -35,14 +35,16 @@ type HomeProps = {
 
 export default function Home({ latestEpisodes, remainingEpisodes } : HomeProps) {
   
-  const { play } = useContext(PlayerContext);
+  const { playEpisodeList } = useContext(PlayerContext);
+
+  const episodeList = [...latestEpisodes, ...remainingEpisodes ]
 
   return (
     <div className={ styles.homepage }>
       <section className={ styles.latestEpisodes }>
         <h2>Mais recentes</h2>
         <ul>
-          { latestEpisodes.map(episode => (
+          { latestEpisodes.map((episode, index) => (
             <li key={ episode.id }>
               {/* format Image component to @3x the size of the displayed image  */}
               <Image
@@ -60,7 +62,7 @@ export default function Home({ latestEpisodes, remainingEpisodes } : HomeProps) 
                 <span>{ episode.publishedAt }</span>
                 <span>{ episode.durationAsString }</span>
               </div>
-              <button type="button" onClick={() => { play(episode) }}>
+              <button type="button" onClick={() => { playEpisodeList(episodeList, index) }}>
                 <img src="/play-green.svg" alt="iniciar episódio"/>
               </button>
             </li>
@@ -82,7 +84,7 @@ export default function Home({ latestEpisodes, remainingEpisodes } : HomeProps) 
             </tr>
           </thead>
           <tbody>
-            { remainingEpisodes.map(episode => {
+            { remainingEpisodes.map((episode, index) => {
               return (
                 <tr key={ episode.id }>
                   <td style={{ width: 72 }}>
@@ -104,7 +106,11 @@ export default function Home({ latestEpisodes, remainingEpisodes } : HomeProps) 
                   <td>{ episode.durationAsString }</td>
                   <td>
                     <button type="button">
-                      <img src="/play-green.svg" alt="iniciar episódio"/>
+                      <img 
+                        src="/play-green.svg"
+                        alt="iniciar episódio"
+                        onClick={() => playEpisodeList(episodeList, index + latestEpisodes.length)}
+                      />
                     </button>
                   </td>
                 </tr>
