@@ -15,11 +15,13 @@ export function Player() {
     currentEpisodeIndex,
     isPlaying,
     togglePlay,
+    toggleRepeat,
     setPlayingState,
     playNext,
     playPrevious,
     hasNext,
     hasPrevious,
+    isRepeating,
   } = usePlayer();
 
   useEffect(() => {
@@ -79,6 +81,7 @@ export function Player() {
             ref={audioRef}
             src={ episode.url }
             autoPlay
+            loop={isRepeating}
             onPlay={() => setPlayingState(true)}
             onPause={() => setPlayingState(false)}
           />
@@ -117,7 +120,12 @@ export function Player() {
             <img src="/play-next.svg" alt="seguinte"/>
           </button>
           
-          <button type="button" disabled={!episode}>
+          <button 
+            type="button"
+            disabled={!episode}
+            onClick={toggleRepeat}
+            className={ isRepeating ? styles.isActive : ''}
+          >
             <img src="/repeat.svg" alt="repetir"/>
           </button>
         </div>
