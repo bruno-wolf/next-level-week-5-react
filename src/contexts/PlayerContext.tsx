@@ -13,12 +13,14 @@ type PlayerContextData = {
   currentEpisodeIndex: Number;
   isPlaying: boolean;
   isRepeating: boolean;
+  isShuffling: boolean;
   hasNext: boolean;
   hasPrevious: boolean;
   play: (episode: Episode) => void;
   playEpisodeList: ( list: Episode[], index: number ) => void;
   togglePlay: () => void;
   toggleRepeat: () => void;
+  toggleShuffle: () => void;
   setPlayingState: (state: boolean) => void;
   playNext: () => void;
   playPrevious: () => void;
@@ -35,6 +37,7 @@ export const PlayerContextProvider = ({ children } : PlayerContextProviderProps)
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRepeating, setIsRepeating] = useState(false);
+  const [isShuffling, setIsShuffling] = useState(false);
 
   function play(episode : Episode) {
     setEpisodeList([episode]);
@@ -51,15 +54,22 @@ export const PlayerContextProvider = ({ children } : PlayerContextProviderProps)
   function togglePlay() { setIsPlaying(!isPlaying); }
   
   function toggleRepeat() { setIsRepeating(!isRepeating); }
-
+  
+  function toggleShuffle() { setIsShuffling(!isShuffling); }
+  
   function setPlayingState(state: boolean) { setIsPlaying(state) }
 
   const hasPrevious = currentEpisodeIndex > 0;
   const hasNext = currentEpisodeIndex + 1 < episodeList.length;
   
   function playNext() { 
-    const nextEpisodeIndex = currentEpisodeIndex + 1;
-    if(hasNext) setCurrentEpisodeIndex(nextEpisodeIndex);
+    if(isShuffling) {
+      const randomEpisodeIndex = Math.floor(Math.random() * episodeList.length);
+      setCurrentEpisodeIndex(randomEpisodeIndex);
+    } else if(hasNext) {
+      const nextEpisodeIndex = currentEpisodeIndex + 1;
+      setCurrentEpisodeIndex(nextEpisodeIndex);
+    }
   }
   
   function playPrevious() { 
@@ -72,11 +82,13 @@ export const PlayerContextProvider = ({ children } : PlayerContextProviderProps)
       currentEpisodeIndex,
       isPlaying,
       isRepeating,
+      isShuffling,
       hasNext,
       hasPrevious,
       play,
       togglePlay,
       toggleRepeat,
+      toggleShuffle,
       setPlayingState,
       playEpisodeList,
       playNext,
