@@ -6,8 +6,7 @@ import pt from 'date-fns/locale/pt';
 import { api } from '../services/api';
 import { convertDurationToTimeString } from '../utils/convertDurationToTimeString';
 import styles from './home.module.scss';
-import { useContext } from 'react';
-import { PlayerContext } from '../contexts/PlayerContext';
+import { usePlayer } from '../contexts/PlayerContext';
 
 // type HomeProps = {
 //   episodes: Array<{
@@ -35,7 +34,7 @@ type HomeProps = {
 
 export default function Home({ latestEpisodes, remainingEpisodes } : HomeProps) {
   
-  const { playEpisodeList } = useContext(PlayerContext);
+  const { playEpisodeList } = usePlayer();
 
   const episodeList = [...latestEpisodes, ...remainingEpisodes ]
 
