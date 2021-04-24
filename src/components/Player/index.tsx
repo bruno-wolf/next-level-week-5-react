@@ -6,7 +6,13 @@ import 'rc-slider/assets/index.css'
 import styles from './styles.module.scss';
 
 export function Player() {
-  const { episodeList, currentEpisodeIndex } = useContext(PlayerContext);
+  const { 
+    episodeList,
+    currentEpisodeIndex,
+    isPlaying,
+    togglePlay,
+  } = useContext(PlayerContext);
+
   const episode = episodeList[Number(currentEpisodeIndex)];
 
   return (
@@ -61,8 +67,15 @@ export function Player() {
           <button type="button" disabled={!episode}>
             <img src="/play-previous.svg" alt="anterior"/>
           </button>
-          <button type="button" className={ styles.playButton } disabled={!episode}>
-            <img src="/play.svg" alt="play"/>
+          <button 
+            type="button"
+            className={ styles.playButton }
+            onClick={togglePlay}
+            disabled={!episode}
+          >
+            { isPlaying 
+              ? <img src="/pause.svg" alt="pause"/>
+              : <img src="/play.svg" alt="play"/> }
           </button>
           <button type="button" disabled={!episode}>
             <img src="/play-next.svg" alt="seguinte"/>
