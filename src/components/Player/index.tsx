@@ -50,19 +50,19 @@ export function Player() {
           <span>00:00</span>
         </div>
         <div className={ styles.buttons }>
-          <button type="button">
+          <button type="button" disabled={!episode} >
             <img src="/shuffle.svg" alt="aleatório"/>
           </button>
-          <button type="button">
+          <button type="button" disabled={!episode}>
             <img src="/play-previous.svg" alt="anterior"/>
           </button>
-          <button type="button" className={ styles.playButton }>
+          <button type="button" className={ styles.playButton } disabled={!episode}>
             <img src="/play.svg" alt="play"/>
           </button>
-          <button type="button">
+          <button type="button" disabled={!episode}>
             <img src="/play-next.svg" alt="seguinte"/>
           </button>
-          <button type="button">
+          <button type="button" disabled={!episode}>
             <img src="/repeat.svg" alt="repetir"/>
           </button>
         </div>

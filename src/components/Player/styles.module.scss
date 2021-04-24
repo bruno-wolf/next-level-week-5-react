@@ -100,12 +100,19 @@
     background: transparent;
     border: 0;
     font-size: 0;
+    transition: filter 200ms ease-in-out;
 
+    &:disabled { cursor: default; }
+    &:hover:not(:disabled) { filter: brightness(.7)}
+    
     &.playButton {
       width: 4rem;
       height: 4rem;
       border-radius: 1rem;
       background: var(--purple-300);
+      
+      &:hover:not(:disabled) { filter: brightness(.95)}
     }
+
   }
 }
